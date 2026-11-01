@@ -1402,6 +1402,7 @@ export class BinarySession
       active: this.#active,
       operation: name,
       parameters: arguments_,
+      snapshotContext: options?.snapshotContext,
       nativeSourceAdmitted: this.#active?.nativeSourceAdmitted === true,
       unboundOperationError: (operation, route) =>
         this.#providerRouter.unboundOperationError(operation, route),
@@ -1454,7 +1455,12 @@ export class BinarySession
     }
     if (
       execution.ok &&
-      isSourceEvidenceRetainable(name, capability, arguments_) &&
+      isSourceEvidenceRetainable(
+        name,
+        capability,
+        arguments_,
+        options?.snapshotContext,
+      ) &&
       profile !== undefined
     ) {
       const evidence = createAnalysisExecutionEvidence(
